@@ -1,56 +1,42 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool check_limit(int num, int limit)
+long long calculate(string num, string sfx, int limit)
 {
-    while (num > 0)
+    int n = num.length() - sfx.length();
+    if (num.length() < sfx.length())
     {
-        if (num % 10 > limit)
-        {
-            return false;
-        }
-        num /= 10;
+        return 0;
     }
-    return true;
+
+    if (num.length() == sfx.length())
+    {
+        return num >= sfx ? 1 : 0;
+    }
+
+    string s = num.substr(num.length() - sfx.length(), sfx.length());
+
+    long long ret = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (limit < (num[i] - '0')) // if the ith digit is over
+        {
+            ret += (long)powl(limit + 1, n - i);
+            return ret;
+        }
+        ret += (long)(num[i] - '0') * (long)powl(limit + 1, n - 1 - i);
+    }
+    if (s >= sfx)
+    {
+        ret++;
+    }
+    return ret;
 }
 
-int numberOfPowerfulInt(long long start, long long finish, int limit, const string &s)
+long long numberOfPowerfulInt(long long start, long long finish, int limit, const string &s)
 {
-    int powerful_integers = 0;
-    long long suffix = stoll(s);
-    int suffix_length = s.length();
-    long long base = pow(10, suffix_length);
-
-    if (suffix >= start && suffix <= finish && check_limit(suffix, limit))
-    {
-        powerful_integers++;
-    }
-
-    for (int prefix_length = 1; prefix_length <= 10; prefix_length++)
-    {
-        long long min_prefix = pow(10, prefix_length - 1);
-        long long max_prefix = min(finish / base, (long long)pow(10, prefix_length) - 1);
-
-        if (min_prefix * base + suffix > finish)
-        {
-            break;
-        }
-
-        if (suffix == 0 && prefix_length == 1)
-        {
-            min_prefix = 1;
-        }
-
-        for (long long prefix = min_prefix; prefix <= max_prefix; prefix++)
-        {
-            if (check_limit(prefix, limit))
-            {
-                powerful_integers++;
-            }
-        }
-    }
-
-    return powerful_integers;
+    return calculate(to_string(finish), s, limit) - calculate(to_string(start - 1), s, limit);
 }
 
 int main()
