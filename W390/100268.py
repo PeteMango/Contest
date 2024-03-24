@@ -1,66 +1,62 @@
-from typing import List
+class Node:
+    def __init__(self):
+        self.links = [None] * 26
+        self.idx = -1
+        self.terminal = -1
+        self.minimum_length = float('inf')
 
-class TrieNode:
-    def __init__(self, char=''):
-        self.char = char
-        self.children = []
-        self.is_end_of_word = False
-        self.word_index = -1  # Stores the index of the word in wordsContainer
 
-    def add(self, word: str, word_index: int):
-        node = self
+class Trie:
+    def __init__(self):
+        self.root = Node()
+
+    def insert(self, word, index):
+        word = word[::-1]
+        current = self.root
         for char in word:
-            found_in_child = False
-            for child in node.children:
-                if child.char == char:
-                    node = child
-                    found_in_child = True
-                    break
-            if not found_in_child:
-                new_node = TrieNode(char)
-                node.children.append(new_node)
-                node = new_node
-        node.is_end_of_word = True
-        node.word_index = word_index
+            char_index = ord(char) - ord('a')
+            if not current.links[char_index]:
+                current.links[char_index] = Node()
+            if len(word) < current.minimum_length:
+                current.idx = index
+                current.minimum_length = len(word)
+            current = current.links[char_index]
 
-    def query(self, word: str) -> int:
-        node = self
+        if current.terminal == -1:
+            current.terminal = index
+
+    def search(self, word):
+        word = word[::-1]
+        current = self.root
         for char in word:
-            found_in_child = False
-            for child in node.children:
-                if child.char == char:
-                    node = child
-                    found_in_child = True
-                    break
-            if not found_in_child:
-                return -1  # Not found in any child
-        if node.is_end_of_word:
-            return node.word_index  # Exact match found
-        else:
-            # If not an exact match, find the first word that completes the suffix
-            node = self._find_deepest_end(node)
-            return node.word_index if node else -1
+            char_index = ord(char) - ord('a')
+            if not current.links[char_index]:
+                if current.terminal != -1:
+                    return current.terminal
+                return current.idx
+            current = current.links[char_index]
 
-    def _find_deepest_end(self, node):
-        if node.is_end_of_word:
-            return node
-        for child in sorted(node.children, key=lambda x: x.word_index):
-            result = self._find_deepest_end(child)
-            if result:
-                return result
-        return None
+        if current.terminal != -1:
+            return current.terminal
+
+        return current.idx
+
 
 class Solution:
-    def stringIndices(self, wordsContainer: List[str], wordsQuery: List[str]) -> List[int]:
-        shortest_len = int(1e6 + 5)
-        for word in wordsContainer:
-            shortest_len = min(shortest_len, len(word))
+    def stringIndices(self, container, query):
+        trie = Trie()
+        for i, word in enumerate(container):
+            trie.insert(word, i)
 
-        wordsContainerReversed = {word[::-1]: i for i, word in enumerate(wordsContainer)}
-        root = TrieNode()
-        for word, original_index in wordsContainerReversed.items():
-            root.add(word, original_index)
+        result = [trie.search(word) for word in query]
+        return result
 
-        roots = [TrieNode(char) for char in 'abcdefghijklmnopqrstuvwxyz']
-        for word, original_index in wordsContainerReversed.items():
-            roots[ord(word[0]) - ord('a')].add(word, original_index)
+s = Solution()
+
+wordsContainer = ["abcd","bcd","xbcd"]
+wordsQuery = ["cd","bcd","xyz"]
+
+wordsContainer = ["abcdefgh","poiuygh","ghghgh"]
+wordsQuery = ["gh","acbfgh","acbfegh"]
+
+print(s.stringIndices(wordsContainer, wordsQuery))
