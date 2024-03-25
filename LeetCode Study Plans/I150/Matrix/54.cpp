@@ -22,6 +22,7 @@ public:
 
       if (top <= bottom) {
         for (int j = right; j >= left; --j)
+
           spiral.push_back(matrix[bottom][j]);
         bottom--;
       }
