@@ -1,3 +1,5 @@
+# Tue, April 2, 2024
+
 class Solution:
     def lengthOfLastWord(self, s: str) -> int:
         n, cnt = len(s), 0
