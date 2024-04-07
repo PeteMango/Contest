@@ -15,3 +15,13 @@ class Solution:
                 return i
 
         return -1
+
+s = Solution()
+
+nums = [1,2,0]
+
+nums = [3,4,-1,1]
+
+nums = [7,8,9,11,12]
+
+print(s.firstMissingPositive(nums))

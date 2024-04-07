@@ -18,3 +18,13 @@ class Solution:
             r += 1
 
         return ans
+
+s = Solution()
+
+nums = [10,5,2,6]
+k = 100
+
+nums = [1,2,3]
+k = 0
+
+print(s.numSubarrayProductLessThanK(nums, k))

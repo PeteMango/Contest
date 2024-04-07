@@ -21,3 +21,5 @@ str = "leEeetcode"
 str = "abBAcC"
 
 str = "s"
+
+print(s.makeGood(str))

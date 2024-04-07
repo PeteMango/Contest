@@ -34,3 +34,13 @@ class Solution:
             final = ret[i] + final
 
         return final
+
+s = Solution()
+
+str = "lee(t(c)o)de)"
+
+str = "a)b(c)d"
+
+str = "))(("
+
+print(s.minRemoveToMakeValid(str))

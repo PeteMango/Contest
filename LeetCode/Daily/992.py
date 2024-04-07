@@ -30,7 +30,7 @@ s = Solution()
 nums = [1,2,1,2,3]
 k = 2
 
-# nums = [1,2,1,3,4]
-# k = 3
+nums = [1,2,1,3,4]
+k = 3
 
 print(s.subarraysWithKDistinct(nums, k))

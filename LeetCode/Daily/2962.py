@@ -37,7 +37,7 @@ s = Solution()
 nums = [1,3,2,3,3]
 k = 2
 
-# nums = [1,4,2,1]
-# k = 3
+nums = [1,4,2,1]
+k = 3
 
 print(s.countSubarrays(nums, k))
