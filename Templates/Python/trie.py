@@ -1,17 +1,40 @@
-# prefix tree / trie
+# Prefix Tree (Trie) Implementation
 
 from typing import Optional
 
 class TrieNode:
     def __init__(self):
+        """
+        Trie Node:
+
+        Args:
+            children (dict): dictionary of childrens
+            isEndOfWord (bool): determine if the current node marks the end of word
+        """
         self.children = {}
         self.isEndOfWord = False
 
 class Trie:
     def __init__(self):
+        """
+        Trie:
+
+        Args:
+            root (TrieNode): root node of the trie
+        """
         self.root = TrieNode()
 
     def insert(self, word: str) -> None:
+        """
+        Inserts a word into the Trie
+
+        Args:
+            word (str): word to insert
+
+        Returns:
+            None
+        """
+
         node = self.root
         for char in word:
             if char not in node.children:
@@ -20,13 +43,43 @@ class Trie:
         node.isEndOfWord = True
 
     def search(self, word: str) -> bool:
-        node = self.getRootNodeForWord(word)
+        """
+        Searches for a word in the Trie
+
+        Args:
+            word (str): the word to search
+
+        Return:
+            found (bool): whether the word is in the Trie
+        """
+
+        node = self.findEndNode(word)
         return node is not None and node.isEndOfWord
 
     def startsWith(self, prefix: str) -> bool:
-        return self.getRootNodeForWord(prefix) is not None
+        """
+        Checks if any word in the prefix starts with the prefix
 
-    def getRootNodeForWord(self, word: str) -> Optional[TrieNode]:
+        Args:
+            prefix (str): the prefix to search for
+
+        Returns:
+            found (bool): whether the prefix exists in the trie
+        """
+
+        return self.findEndNode(prefix) is not None
+
+    def findEndNode(self, word: str) -> Optional[TrieNode]:
+        """
+        Returns TrieNode corresponding to the last character of a word
+
+        Args:
+            word (str): the word to search for
+
+        Returns:
+            endNode (TrieNode): the TrieNode corresponding to the last character
+        """
+
         node = self.root
         for char in word:
             if char not in node.children:
@@ -34,11 +87,23 @@ class Trie:
             node = node.children[char]
         return node
 
-# USAGE:
-    # t = Trie()
+    def containsSubstr(self, substr: str) -> bool:
+        """
+        Checks if the trie contains any word that is a substring of the given substr.
 
-    # t.insert('peter')
-    # t.insert('norman')
+        Args:
+            substr (str): the substr to search for
 
-    # print(t.search('peter'))
-    # print(t.startsWith('pet'))
+        Returns:
+            bool: True if any forbidden word is a substring of substr, False otherwise.
+        """
+
+        for i in range(len(substr)):
+            pCrawl = self.root
+            for j in range(i, len(substr)):
+                if substr[j] not in pCrawl.children:
+                    break
+                pCrawl = pCrawl.children[substr[j]]
+                if pCrawl.isEndOfWord:
+                    return True
+        return False
