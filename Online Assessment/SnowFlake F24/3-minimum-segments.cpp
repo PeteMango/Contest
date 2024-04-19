@@ -2,8 +2,8 @@
 3. Minimum Segments 15/15
 */
 
+#include <functional>
 #include <bits/stdc++.h>
-
 using namespace std;
 
 string ltrim(const string &);

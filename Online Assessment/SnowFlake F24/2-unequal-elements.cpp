@@ -21,7 +21,7 @@ string rtrim(const string &);
 int findMaxLength(vector<int> skills, int k) {
   int n = skills.size();
 
-  vector<vector<int>> dp(n, vector<int>(k + 1, 0));
+  vector<vector<int> > dp(n, vector<int>(k + 1, 0));
   int maxLen = 1;
 
   for (int i = 0; i < n; i++) {

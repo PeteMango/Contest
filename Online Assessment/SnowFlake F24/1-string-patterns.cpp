@@ -25,9 +25,9 @@ int calculateWays(int wordLen, int maxVowels) {
   }
   const int c = 21, v = 5;
 
-  vector<vector<vector<long long>>> dp(
+  vector<vector<vector<long long> > > dp(
       wordLen + 1,
-      vector<vector<long long>>(maxVowels + 1, vector<long long>(2, 0)));
+      vector<vector<long long> >(maxVowels + 1, vector<long long>(2, 0)));
 
   for (int i = 1; i <= v; i++) {
     dp[1][1][1] = v;
