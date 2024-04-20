@@ -1,4 +1,6 @@
-from typing import
+# Thu, April 18, 2024
+
+from typing import List
 
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
