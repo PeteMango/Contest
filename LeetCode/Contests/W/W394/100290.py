@@ -1,43 +1,26 @@
-from collections import defaultdict
 from typing import List
+from collections import defaultdict
+from functools import cache
 
 class Solution:
     def minimumOperations(self, grid: List[List[int]]) -> int:
-        n = len(grid)
-        m = len(grid[0])
+        m, n = len(grid), len(grid[0])
 
-        if n == 1:
-            changes = 0
-            for j in range(1, m):
-                if grid[0][j] == grid[0][j-1]:
-                    changes += 1
-            return changes
+        nums = [defaultdict(int) for _ in range(n)]
 
-        freq_list = []
-        for col in range(m):
-            freq_dict = defaultdict(int)
-            for row in range(n):
-                freq_dict[grid[row][col]] += 1
-            freq_list.append(freq_dict)
+        for j in range(n):
+            for i in range(m):
+                nums[j][grid[i][j]] += 1
 
-        dp = [[float('inf')] * m for _ in range(m)]
+        @cache
+        def move(i, value: int):
+            if i == n:
+                return 0
 
-        for value, count in freq_list[0].items():
-            dp[value][0] = n - count
+            num_changes = m - nums[i][value]
+            return num_changes + min(move(i+1, new_val) for new_val in range(10) if new_val != value)
 
-        for col in range(1, m):
-            for value in range(m):
-                if value in freq_list[col]:
-                    for prev_value in range(m):
-                        if prev_value in freq_list[col-1]:
-                            if value != prev_value:
-                                dp[value][col] = min(dp[value][col], dp[prev_value][col-1] + (n - freq_list[col][value]))
-
-        min_ops = float('inf')
-        for value in range(m):
-            min_ops = min(min_ops, dp[value][m-1])
-
-        return int(min_ops) if min_ops != float('inf') else -1
+        return min(move(0, value) for value in range(10))
 
 s = Solution()
 
