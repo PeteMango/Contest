@@ -20,7 +20,7 @@ class Solution:
             num_changes = m - nums[i][value]
             return num_changes + min(move(i+1, new_val) for new_val in range(10) if new_val != value)
 
-        return min(move(0, value) for value in range(10))
+        return min(move(0, value) for vawlue in range(10))
 
 s = Solution()
 
