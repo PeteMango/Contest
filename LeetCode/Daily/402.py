@@ -1,4 +1,4 @@
-# Thu, APril 11, 2024
+# Thu, April 11, 2024
 
 class Solution:
     def removeKdigits(self, num: str, k: int) -> str:
