@@ -18,3 +18,9 @@ class Solution:
             ret.append(dq.popleft())
 
         return ret
+
+deck = [17,13,11,2,3,5,7]
+
+deck = [1,1000]
+
+print(s.deckRevealedIncreasing(deck))
