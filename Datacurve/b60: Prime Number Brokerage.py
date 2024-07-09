@@ -2,6 +2,17 @@ import math
 
 
 def prime_brokerage(numbers: list[int]) -> int:
+    """Prime brokerage function 
+
+    Args:
+        numbers (list[int]): array to compute prime brokerage for
+
+    Raises:
+        ValueError: if array is empty or none
+
+    Returns:
+        int: the maximum prime number obtainable
+    """
     if not numbers:
         raise ValueError('numbers must be a list of numbers')
 
@@ -17,6 +28,14 @@ def prime_brokerage(numbers: list[int]) -> int:
             prefix_product[idx-1]  # build prefix product array
 
     def is_prime(n: int) -> bool:
+        """Checks if a number is prime
+
+        Args:
+            n (int): the number to check
+
+        Returns:
+            bool: whether the number is prime
+        """
         if n <= 1:  # base case
             return False
 
