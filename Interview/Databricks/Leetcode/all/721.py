@@ -24,13 +24,17 @@ class Solution:
             t = []
             while q:
                 f = q.popleft()
+                if f in seen:
+                    continue
                 t.append(f)
                 seen.add(f)
                 for neighbor in g[f]:
                     if neighbor[0] not in seen:
                         q.append(neighbor[0])
             
-            t = list(set(t))
+            if not t:
+                continue
+            # t = list(set(t))
             t.sort()
 
             ret.append([e[1]]+t)
